@@ -1,0 +1,82 @@
+@font-face {
+    font-family: 'digital-font';
+    src: url('./assets/Open\ 24\ Display\ St.ttf');
+}
+
+*,*::after,*::before{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'digital-font';
+}
+
+body{
+    background: url(./assets/Sprinkle.svg);
+} 
+
+
+main{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+}
+
+.calc-cont{
+    height: 700px;
+    width: 500px;
+    background-color: rgba(0, 0, 0, 0.474);
+    padding: 0.5rem;
+}
+
+.display-wrap{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.input-wrap input{
+    outline: none;
+    border: none;
+    height: 80px;
+    width: 100%;
+    font-size: 2rem;
+    padding: 0.1rem;
+    border-radius: 8px;
+}
+
+.output-wrap{
+    width: 100%;
+    font-size: 2rem;
+    text-align: right;
+    color: white;
+}
+
+.number-cont{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    height: 83%;
+    width: 100%;
+    grid-gap: 0.5rem;
+}
+
+.number-cont div{
+    font-size: 2rem;
+    background-color: rgb(255, 255, 255);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 8px;
+    transition: all 0.1s ease;
+    cursor: pointer;
+}
+
+.number-cont div:hover{
+    color: white;
+    background-color: rgb(94, 94, 94);
+}
+
+.number-cont div:active{
+    box-shadow: rgb(33, 35, 36) 3px 3px 6px 0px inset, rgba(24, 24, 24, 0.5) -3px -3px 6px 1px inset;
+}
