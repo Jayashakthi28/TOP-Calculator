@@ -69,6 +69,7 @@ main{
     align-items: center;
     border-radius: 8px;
     transition: all 0.1s ease;
+    user-select: none;
     cursor: pointer;
 }
 
