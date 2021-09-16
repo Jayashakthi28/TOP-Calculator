@@ -36,7 +36,7 @@ main{
     justify-content: center;
 }
 
-.input-wrap input{
+.input-wrap div{
     outline: none;
     border: none;
     height: 80px;
@@ -44,6 +44,10 @@ main{
     font-size: 2rem;
     padding: 0.1rem;
     border-radius: 8px;
+    background-color: white;
+    color: black;
+    overflow-y: auto;
+    word-break: break-all;    
 }
 
 .output-wrap{
@@ -80,4 +84,20 @@ main{
 
 .number-cont div:active{
     box-shadow: rgb(33, 35, 36) 3px 3px 6px 0px inset, rgba(24, 24, 24, 0.5) -3px -3px 6px 1px inset;
+}
+
+.box_active{
+    background-color: rgb(94, 94, 94) !important;
+    color: white !important;
+    box-shadow: rgb(33, 35, 36) 3px 3px 6px 0px inset, rgba(24, 24, 24, 0.5) -3px -3px 6px 1px inset;
+}
+
+.btn-cont:nth-child(1){
+    grid-column-start: 1;
+    grid-column-end: 3;
+}
+
+.btn-cont:nth-child(2){
+    grid-column-start: 3;
+    grid-column-end: 5;
 }
