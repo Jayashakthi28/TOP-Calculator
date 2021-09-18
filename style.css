@@ -47,6 +47,7 @@ main{
     background-color: white;
     color: black;
     overflow-y: auto;
+    letter-spacing: 3px;
     word-break: break-all;    
 }
 

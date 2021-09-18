@@ -10,6 +10,9 @@ let last_eqn=/[+\-*\/^%\.]$/gi;
 let decimal_limit=/\.[\d]{5,}/gi;
 let number_limit=/[0-9]{9,}/gi;
 let open_Bracket=/^\)/gi;
+let bracket=/\({0,}[+\-*\/^\.^%]/
+let main_regex=/([\d]\.[\d]{0,}\.{1,})|([+\-*\/^\.^%][+\-*\/^\.^%]{1,})|([+\-*\/^%][+\-*\/^%])|(^[+\-*\/^%\.])|(\.[\d]{5,})|([0-9]{9,})|(^\))|(\({1,}[+\-*\/^%\.])|(\(\))|(\)[\.0-9])/gi;
+
 const obj={
     '1':keys[14],
     '2':keys[15],
@@ -46,7 +49,8 @@ keys.forEach((d,idx)=>{
     d.addEventListener('click',()=>{
         inp.textContent+=d.textContent;
         let txt=inp.textContent;
-        if(txt.match(dot_regex) || txt.match(arthmetic_regex) || txt.match(operator_regex) || txt.match(first_eqn) || txt.match(decimal_limit) || txt.match(number_limit) || txt.match(open_Bracket)){
+        // if(txt.match(dot_regex) || txt.match(arthmetic_regex) || txt.match(operator_regex) || txt.match(first_eqn) || txt.match(decimal_limit) || txt.match(number_limit) || txt.match(open_Bracket)){
+        if(txt.match(main_regex)){    
             if(txt.match(operator_regex)){
                 let temp;
                 txt=txt.split('');
@@ -85,6 +89,11 @@ window.addEventListener('keypress',(e)=>{
 })
 
 window.addEventListener('keydown',(e)=>{
-    if(e.key!=='Backspace' || inp.textContent.length===0) return;
+    if(e.key!=='Backspace') return;
+    keys[0].classList.add('box_active');
+    setTimeout(()=>{
+        keys[0].classList.remove('box_active');
+    },100);
+    if(inp.textContent.length===0) return;
     BackSpacer();
 })
