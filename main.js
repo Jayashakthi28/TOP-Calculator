@@ -2,6 +2,14 @@ const keys=[...document.querySelectorAll('.number-cont div')];
 const inp=document.querySelector('.input-wrap div');
 inp.disabled=true;
 
+let dot_regex=/[\d]\.[\d]{0,}\.{1,}/gi;
+let arthmetic_regex=/[+\-*\/^\.^%][+\-*\/^\.^%]{1,}/gi;
+let operator_regex=/[+\-*\/^%][+\-*\/^%]/gi;
+let first_eqn=/^[+\-*\/^%\.]/gi;
+let last_eqn=/[+\-*\/^%\.]$/gi;
+let decimal_limit=/\.[\d]{5,}/gi;
+let number_limit=/[0-9]{9,}/gi;
+let open_Bracket=/^\)/gi;
 const obj={
     '1':keys[14],
     '2':keys[15],
@@ -19,18 +27,51 @@ const obj={
     '/':keys[5],
     '%':keys[2],
     '^':keys[20],
-    '.':keys[18]
+    '.':keys[18],
+    '(':keys[3],
+    ')':keys[4]
 }
 
-keys.forEach(d=>{
+
+function BackSpacer(){
+    let a=inp.textContent;
+    a=a.split('');
+    a.splice(a.length-1,1);
+    a=a.join('');
+    inp.textContent=a;
+}
+
+keys.forEach((d,idx)=>{
+    if(idx==0) return;
     d.addEventListener('click',()=>{
         inp.textContent+=d.textContent;
+        let txt=inp.textContent;
+        if(txt.match(dot_regex) || txt.match(arthmetic_regex) || txt.match(operator_regex) || txt.match(first_eqn) || txt.match(decimal_limit) || txt.match(number_limit) || txt.match(open_Bracket)){
+            if(txt.match(operator_regex)){
+                let temp;
+                txt=txt.split('');
+                temp=txt.splice(txt.length-1,1);
+                txt.splice(txt.length-1);
+                txt=txt.join('')+temp;
+            }
+            else{
+                txt=txt.split('');
+                txt.splice(txt.length-1,1);
+                console.log(txt);
+                txt=txt.join('');
+            }
+            inp.textContent=txt;
+        }
     });
 })
 
 
 keys[1].addEventListener('click',()=>{
     inp.textContent='';
+})
+
+keys[0].addEventListener('click',()=>{
+    BackSpacer();
 })
 
 window.addEventListener('keypress',(e)=>{
@@ -45,9 +86,5 @@ window.addEventListener('keypress',(e)=>{
 
 window.addEventListener('keydown',(e)=>{
     if(e.key!=='Backspace' || inp.textContent.length===0) return;
-    let a=inp.textContent;
-    a=a.split('');
-    a.splice(a.length-1,1);
-    a=a.join('');
-    inp.textContent=a;
+    BackSpacer();
 })
