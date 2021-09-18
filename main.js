@@ -2,6 +2,8 @@ const keys=[...document.querySelectorAll('.number-cont div')];
 const inp=document.querySelector('.input-wrap div');
 inp.disabled=true;
 
+let open=0;
+let close=0;
 let dot_regex=/[\d]\.[\d]{0,}\.{1,}/gi;
 let arthmetic_regex=/[+\-*\/^\.^%][+\-*\/^\.^%]{1,}/gi;
 let operator_regex=/[+\-*\/^%][+\-*\/^%]/gi;
@@ -11,7 +13,7 @@ let decimal_limit=/\.[\d]{5,}/gi;
 let number_limit=/[0-9]{9,}/gi;
 let open_Bracket=/^\)/gi;
 let bracket=/\({0,}[+\-*\/^\.^%]/
-let main_regex=/([\d]\.[\d]{0,}\.{1,})|([+\-*\/^\.^%][+\-*\/^\.^%]{1,})|([+\-*\/^%][+\-*\/^%])|(^[+\-*\/^%\.])|(\.[\d]{5,})|([0-9]{9,})|(^\))|(\({1,}[+\-*\/^%\.])|(\(\))|(\)[\.0-9])/gi;
+let main_regex=/([\d]\.[\d]{0,}\.{1,})|([+\-*\/^\.^%][+\-*\/^\.^%]{1,})|([+\-*\/^%][+\-*\/^%])|(^[+\-*\/^%\.])|(\.[\d]{5,})|([0-9]{9,})|(^\))|(\({1,}[+\-*\/^%\.])|(\(\))|(\)[\.0-9])|(\)[\d])|([\d]\()/gi;
 
 const obj={
     '1':keys[14],
@@ -39,7 +41,9 @@ const obj={
 function BackSpacer(){
     let a=inp.textContent;
     a=a.split('');
-    a.splice(a.length-1,1);
+    let temp=a.splice(a.length-1,1);
+    if(temp[0]==='(') open--;
+    if(temp[0]===')') close--;
     a=a.join('');
     inp.textContent=a;
 }
@@ -47,10 +51,12 @@ function BackSpacer(){
 keys.forEach((d,idx)=>{
     if(idx==0) return;
     d.addEventListener('click',()=>{
+        if(d.textContent==='(') open++;
+        if(d.textContent===')') close++;
         inp.textContent+=d.textContent;
         let txt=inp.textContent;
         // if(txt.match(dot_regex) || txt.match(arthmetic_regex) || txt.match(operator_regex) || txt.match(first_eqn) || txt.match(decimal_limit) || txt.match(number_limit) || txt.match(open_Bracket)){
-        if(txt.match(main_regex)){    
+        if(txt.match(main_regex) || open<close){    
             if(txt.match(operator_regex)){
                 let temp;
                 txt=txt.split('');
@@ -60,18 +66,24 @@ keys.forEach((d,idx)=>{
             }
             else{
                 txt=txt.split('');
-                txt.splice(txt.length-1,1);
+                let temp=txt.splice(txt.length-1,1);
+                console.log(temp);
+                if(temp[0]==='(') open--;
+                if(temp[0]===')') close--;
                 console.log(txt);
                 txt=txt.join('');
             }
             inp.textContent=txt;
         }
+        console.log(open,close);
     });
 })
 
 
 keys[1].addEventListener('click',()=>{
     inp.textContent='';
+    open=0;
+    close=0;
 })
 
 keys[0].addEventListener('click',()=>{
