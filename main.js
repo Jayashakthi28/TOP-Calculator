@@ -1,3 +1,5 @@
+import { Evalutation } from "./evaluation.js";
+
 const keys=[...document.querySelectorAll('.number-cont div')];
 const inp=document.querySelector('.input-wrap div');
 inp.disabled=true;
@@ -75,10 +77,14 @@ keys.forEach((d,idx)=>{
             }
             inp.textContent=txt;
         }
-        console.log(open,close);
     });
 })
 
+window.addEventListener("keypress",(e)=>{
+    if(e.key !=="Enter") return;
+    let res=Evalutation(inp.textContent);
+    console.log(res);
+})
 
 keys[1].addEventListener('click',()=>{
     inp.textContent='';
@@ -98,6 +104,12 @@ window.addEventListener('keypress',(e)=>{
         },100);
         obj[e.key].click();
         inp.scrollTop=inp.scrollHeight;
+        let res=Evalutation(inp.textContent);
+        console.log(res);
+        if(res!==undefined && res!==NaN){
+            console.log('Entering here');
+            document.querySelector('.output-wrap').textContent=res;
+        }
 })
 
 window.addEventListener('keydown',(e)=>{
