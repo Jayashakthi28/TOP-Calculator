@@ -51,7 +51,7 @@ function BackSpacer(){
 }
 
 keys.forEach((d,idx)=>{
-    if(idx==0) return;
+    if(idx==0 || idx===21) return;
     d.addEventListener('click',()=>{
         if(d.textContent==='(') open++;
         if(d.textContent===')') close++;
@@ -77,6 +77,7 @@ keys.forEach((d,idx)=>{
             }
             inp.textContent=txt;
         }
+        outputPrinter();
     });
 })
 
@@ -90,10 +91,13 @@ keys[1].addEventListener('click',()=>{
     inp.textContent='';
     open=0;
     close=0;
+    document.querySelector('.output-wrap').textContent=0;
+    outputPrinter();
 })
 
 keys[0].addEventListener('click',()=>{
     BackSpacer();
+    outputPrinter();
 })
 
 let prevres=0;
@@ -105,11 +109,15 @@ window.addEventListener('keypress',(e)=>{
         },100);
         obj[e.key].click();
         inp.scrollTop=inp.scrollHeight;
-        outputPrinter();
+        // outputPrinter();
 })
 
 function outputPrinter(){
-    if(inp.textContent.length===0) return;
+    if(inp.textContent.length===0) {
+        document.querySelector('.output-wrap').textContent=0;
+        prevres=0;
+        return;
+    }
     let res=Evalutation(inp.textContent);
     let tmptxt=inp.textContent.split('');
     if(tmptxt[tmptxt.length-1].match(/[+\-\/*^%]/)){
@@ -129,9 +137,10 @@ function outputPrinter(){
         res=Evalutation(temp);
         console.log(temp);
     }
-    console.log(res);
+    console.log(res,prevres);
     if(res===undefined) res=0;
-    if(res){
+    if(res || res===0){
+        console.log('Entering Here');
         document.querySelector('.output-wrap').textContent=res;
     }
     else{
@@ -150,3 +159,25 @@ window.addEventListener('keydown',(e)=>{
     BackSpacer();
     outputPrinter();
 })
+
+function main_output_printer(){
+    let temp=inp.textContent.split('');
+    if(temp.length===0) return;
+    if(temp[temp.length-1].match(/[^0-9]/)){
+        document.querySelector('.output-wrap').textContent="Equation Error";
+    }
+    else{
+        outputPrinter();
+    }
+}
+
+keys[21].addEventListener("click",(e)=>{
+    main_output_printer();
+})
+
+window.addEventListener('keydown',(e)=>{
+    if(e.key==='Enter'){
+        main_output_printer();
+    }
+});
+
