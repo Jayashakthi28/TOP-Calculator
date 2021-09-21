@@ -12,13 +12,21 @@
 
 body{
     background: url(./assets/Sprinkle.svg);
+    /* overflow: hidden; */
 } 
 
+h1{
+    text-align: center;
+    font-size: 3rem;
+    letter-spacing: 8px;
+    margin-bottom: 1rem;
+}
 
 main{
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
     height: 100vh;
     width: 100vw;
 }
@@ -49,6 +57,7 @@ main{
     overflow-y: auto;
     letter-spacing: 3px;
     word-break: break-all;    
+    text-align: right;
 }
 
 .output-wrap{
