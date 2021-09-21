@@ -57,7 +57,7 @@ keys.forEach((d,idx)=>{
         if(d.textContent==='(') open++;
         if(d.textContent===')') close++;
         inp.textContent+=d.textContent;
-        if(prev_output!==null && d.textContent.match(/[^0-9]/)){
+        if(prev_output!=='Infinity' && prev_output!==null && d.textContent.match(/[^0-9]/)){
             if(+prev_output<0){
                 console.log(prev_output);
                 let temp=prev_output;
