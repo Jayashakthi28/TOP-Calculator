@@ -16,6 +16,7 @@ let number_limit=/[0-9]{9,}/gi;
 let open_Bracket=/^\)/gi;
 let bracket=/\({0,}[+\-*\/^\.^%]/
 let main_regex=/([\d]\.[\d]{0,}\.{1,})|([+\-*\/^\.^%][+\-*\/^\.^%]{1,})|([+\-*\/^%][+\-*\/^%])|(^[+\-*\/^%\.])|(\.[\d]{5,})|([0-9]{9,})|(^\))|(\({1,}[+\-*\/^%\.])|(\(\))|(\)[\.0-9])|(\)[\d])|([\d]\()|(\)\()|([+\-*\/^%\.]\))|(\.\))|(\.\()/gi;
+let prev_output=null;
 
 const obj={
     '1':keys[14],
@@ -56,6 +57,21 @@ keys.forEach((d,idx)=>{
         if(d.textContent==='(') open++;
         if(d.textContent===')') close++;
         inp.textContent+=d.textContent;
+        if(prev_output!==null && d.textContent.match(/[^0-9]/)){
+            if(+prev_output<0){
+                console.log(prev_output);
+                let temp=prev_output;
+                prev_output=`0${temp}`;
+            }
+            console.log(prev_output);
+            let temp=inp.textContent;
+            console.log(temp);
+            inp.textContent=`${prev_output}${temp}`;
+            prev_output=null;
+        }
+        else{
+            prev_output=null;
+        }
         let txt=inp.textContent;
         // if(txt.match(dot_regex) || txt.match(arthmetic_regex) || txt.match(operator_regex) || txt.match(first_eqn) || txt.match(decimal_limit) || txt.match(number_limit) || txt.match(open_Bracket)){
         if(txt.match(main_regex) || open<close){    
@@ -81,17 +97,13 @@ keys.forEach((d,idx)=>{
     });
 })
 
-window.addEventListener("keypress",(e)=>{
-    if(e.key !=="Enter") return;
-    let res=Evalutation(inp.textContent);
-    console.log(res);
-})
 
 keys[1].addEventListener('click',()=>{
     inp.textContent='';
     open=0;
     close=0;
     document.querySelector('.output-wrap').textContent=0;
+    prev_output=null;
     outputPrinter();
 })
 
@@ -135,12 +147,9 @@ function outputPrinter(){
             i--;
         }
         res=Evalutation(temp);
-        console.log(temp);
     }
-    console.log(res,prevres);
     if(res===undefined) res=0;
     if(res || res===0){
-        console.log('Entering Here');
         document.querySelector('.output-wrap').textContent=res;
     }
     else{
@@ -161,6 +170,10 @@ window.addEventListener('keydown',(e)=>{
 })
 
 function main_output_printer(){
+    keys[21].classList.add('box_active');
+    setTimeout(()=>{
+        keys[21].classList.remove('box_active');
+    },100);
     let temp=inp.textContent.split('');
     if(temp.length===0) return;
     if(temp[temp.length-1].match(/[^0-9]/)){
@@ -168,6 +181,8 @@ function main_output_printer(){
     }
     else{
         outputPrinter();
+        prev_output=document.querySelector('.output-wrap').textContent;
+        inp.textContent='';
     }
 }
 
@@ -176,7 +191,7 @@ keys[21].addEventListener("click",(e)=>{
 })
 
 window.addEventListener('keydown',(e)=>{
-    if(e.key==='Enter'){
+    if(e.key==='Enter' || e.key==='='){
         main_output_printer();
     }
 });
