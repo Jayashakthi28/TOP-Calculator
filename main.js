@@ -59,13 +59,10 @@ keys.forEach((d,idx)=>{
         inp.textContent+=d.textContent;
         if(prev_output!=='Infinity' && prev_output!==null && d.textContent.match(/[^0-9]/)){
             if(+prev_output<0){
-                console.log(prev_output);
                 let temp=prev_output;
                 prev_output=`0${temp}`;
             }
-            console.log(prev_output);
             let temp=inp.textContent;
-            console.log(temp);
             inp.textContent=`${prev_output}${temp}`;
             prev_output=null;
         }
@@ -85,10 +82,8 @@ keys.forEach((d,idx)=>{
             else{
                 txt=txt.split('');
                 let temp=txt.splice(txt.length-1,1);
-                console.log(temp);
                 if(temp[0]==='(') open--;
                 if(temp[0]===')') close--;
-                console.log(txt);
                 txt=txt.join('');
             }
             inp.textContent=txt;
