@@ -3,7 +3,7 @@ import { Stack } from "./class.js";
 
 
 export function isDigit(num){
-    let res=(num.match(/[0-9]{1,}/,num))?true:false;
+    let res=(num.match(/[0-9\.]{1,}/,num))?true:false;
     return res;
 }
 
@@ -46,12 +46,11 @@ export function Evalutation(eqn){
         else if(isDigit(eqn[i])===true){
             let val=0;
             while(i<eqn.length && isDigit(eqn[i])===true){
-                val=val*10;
-                val+=+(eqn[i]);
+                val+=eqn[i];
                 i++;
             }
             i--;
-            num.push(val);
+            num.push(parseFloat(val));
         }
         else if(eqn[i]===')'){
             while(!op.empty() && op.top()!=='('){
