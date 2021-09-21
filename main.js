@@ -96,6 +96,7 @@ keys[0].addEventListener('click',()=>{
     BackSpacer();
 })
 
+let prevres=0;
 window.addEventListener('keypress',(e)=>{
         if(!obj[e.key]) return;
         obj[e.key].classList.add('box_active');
@@ -104,13 +105,40 @@ window.addEventListener('keypress',(e)=>{
         },100);
         obj[e.key].click();
         inp.scrollTop=inp.scrollHeight;
-        let res=Evalutation(inp.textContent);
-        console.log(res);
-        if(res!==undefined && res!==NaN){
-            console.log('Entering here');
-            document.querySelector('.output-wrap').textContent=res;
-        }
+        outputPrinter();
 })
+
+function outputPrinter(){
+    if(inp.textContent.length===0) return;
+    let res=Evalutation(inp.textContent);
+    let tmptxt=inp.textContent.split('');
+    if(tmptxt[tmptxt.length-1].match(/[+\-\/*^%]/)){
+        let temp=inp.textContent;
+        temp=temp.split('');
+        temp.splice(temp.length-1,1);
+        temp=temp.join('');
+        res=Evalutation(temp);
+    }
+    if(open-close!==0){
+        let temp=inp.textContent;
+        let i=open-close;
+        while(i>0){
+            temp+=')';
+            i--;
+        }
+        res=Evalutation(temp);
+        console.log(temp);
+    }
+    console.log(res);
+    if(res===undefined) res=0;
+    if(res){
+        document.querySelector('.output-wrap').textContent=res;
+    }
+    else{
+        document.querySelector('.output-wrap').textContent=prevres;
+    }
+    prevres=res;
+}
 
 window.addEventListener('keydown',(e)=>{
     if(e.key!=='Backspace') return;
@@ -120,4 +148,5 @@ window.addEventListener('keydown',(e)=>{
     },100);
     if(inp.textContent.length===0) return;
     BackSpacer();
+    outputPrinter();
 })
